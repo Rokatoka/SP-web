@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row vertical-center">
             <div class="col text-center" v-show="!select">
-                <div class="h3">Войдите в систему</div>
+                <div class="h3">Welcome to myHealth</div>
 
                 <div class="card p-4 mx-auto mt-4" style="width: 300px;" v-on:keyup.enter="checkCredentials()">
                     <div class="form-group">
@@ -17,25 +17,12 @@
                                 @click="checkCredentials()"
                                 :disabled="loading ? true : false"
                         >
-                            <i v-show="loading" class="fa fa-spinner fa-spin"></i> Войти
+                            <i v-show="loading" class="fa fa-spinner fa-spin"></i> Log In
                         </button>
                     </div>
-                    <router-link :to="{ name: 'reset-pass' }" class="text-muted">Забыли пароль?</router-link>
+                    <router-link :to="{ name: 'reset-pass' }" class="text-muted">Forgot Password?</router-link>
+                    <router-link :to="{ name: 'register' }" class="text-muted">Register Now</router-link>
                     <div class="help-block" v-if="error">{{ error.message }}</div>
-                </div>
-            </div>
-            <div class="col" v-show="select">
-                <div class="mx-auto text-center" style="width: 300px;">
-                    <div class="h3">Выберите аккаунт</div>
-
-                    <div class="mt-4"></div>
-
-                    <div class="card p-4 mb-2" v-for="account in accounts">
-                        <a href="#" @click="setAccount(account)" class="card-full-link"></a>
-                        <b>{{ account.role.description + ": " }}</b>{{ account.name }}
-                    </div>
-
-                    <button @click="select = false" class="btn btn-block btn-danger mt-4">Отмена</button>
                 </div>
             </div>
         </div>
@@ -85,7 +72,7 @@
                         } else if(response.data.data.length === 0) {
                             component.loading = false;
                             component.error = {
-                                message: 'Имя пользователя и пароль не совпадают.'
+                                message: 'Wrong Username or Password.'
                             };
                         } else if(response.data.data.length > 1) {
                             component.error = '';
@@ -95,7 +82,7 @@
                     }, function(error) {
                         component.loading = false;
                         component.error = {
-                            message: 'Имя пользователя и пароль не совпадают.'
+                            message: 'Wrong Username or Password..'
                         };
                     });
                 },
@@ -103,9 +90,6 @@
                 login() {
 
                     let component = this;
-
-
-
                     let secret = document.head.querySelector('meta[name="client-secret"]');
 
                     let data = {
@@ -120,7 +104,6 @@
                     };
 
                     this.loading = true;
-
                     post(this, '/oauth/token', data, function (response) {
 
                         component.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now());

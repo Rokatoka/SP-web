@@ -18,7 +18,9 @@ class UsersTableSeeder extends Seeder
 
 
         $admin = User::create([
-            'name' => 'Administrator',
+            'first_name' => 'Administrator',
+            'last_name' => 'Surname',
+            'patronymic' => 'Administratorovich',
             'email' => 'metavice@gmail.com',
             'role_id' => $role_administrator->id,
             'password' => bcrypt('123456'),

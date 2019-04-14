@@ -14,11 +14,14 @@ import Common from './components/Common.vue';
 import vSelect from 'vue-select';
 import VTooltip from 'v-tooltip';
 import MaskedInput from 'vue-masked-input'
-import Chartkick from 'chartkick';
-import VueChartkick from 'vue-chartkick';
 import Auth from './packages/auth/auth';
 import User from './packages/user';
 import { VueMaskDirective } from 'v-mask';
+import DatePicker from 'vue2-datepicker';
+
+
+
+
 
 const dateLocales = Vue.prototype.$dateLocales = {
     "format": "DD.MM.YY",
@@ -70,6 +73,8 @@ Vue.use(Auth);
 Vue.use(User);
 Vue.use(VTooltip);
 Vue.directive('mask', VueMaskDirective);
+Vue.use(DatePicker);
+Vue.use(require('vue-moment'));
 
 
 
@@ -82,7 +87,7 @@ document.body.appendChild(common.$el);
 
 router.beforeEach((to, from, next) => {
 
-    document.title = to.meta.title + ' - Rocket platform';
+    document.title = to.meta.title + ' - myHealth';
 
     if (to.meta.forAuth){
         if(Vue.auth.isAuthenticated()) {
@@ -172,7 +177,15 @@ const app = new Vue({
 
         afterLogin(user) {
 
-            this.$router.push('/dashboard')
+            if(this.$root.user.data.role_id == 3){
+                this.$router.push('/histories')
+            }else if(this.$root.user.data.role_id == 1){
+                this.$router.push('/dashboard')
+            }else if(this.$root.user.data.role_id == 2){
+                this.$router.push('/appointments')
+            }
+
+
 
         }
 

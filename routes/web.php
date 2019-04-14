@@ -15,7 +15,7 @@
 
 Route::get('/login', function () {
     return view('app');
-});
+})->name('login');
 
 Route::get('/select-account', function () {
     return view('app');
@@ -53,5 +53,49 @@ Route::get('/control/{path}', function () {
 });
 
 Route::get('/control/{path}/{path2}', function () {
+    return view('app');
+});
+
+Route::get('/register', function () {
+    return view('app');
+});
+
+Route::get('/histories', function () {
+    return view('app');
+});
+
+Route::get('/doctors', function () {
+    return view('app');
+});
+
+Route::get('/hospitals', function () {
+    return view('app');
+});
+
+Route::get('/appointments', function () {
+    return view('app');
+});
+
+Route::get('/appointment', function () {
+    return view('app');
+});
+
+Route::get('/appointments/{id}', function () {
+    return view('app');
+});
+
+Route::get('/histories/{id}', function () {
+    return view('app');
+});
+
+Route::get('/hospitals/{id}', function () {
+    return view('app');
+});
+
+Route::get('/hospitals/{id}/departments', function () {
+    return view('app');
+});
+
+Route::get('/departments/{id}', function () {
     return view('app');
 });

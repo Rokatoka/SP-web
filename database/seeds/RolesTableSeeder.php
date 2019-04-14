@@ -21,5 +21,17 @@ class RolesTableSeeder extends Seeder
             'instrumental' => 'для администратора'
         ]);
 
+        Role::create([
+            'name' => 'doctor',
+            'description' => 'Доктор',
+            'instrumental' => 'для доктора'
+        ]);
+
+        Role::create([
+            'name' => 'patient',
+            'description' => 'Пациент',
+            'instrumental' => 'для пациента'
+        ]);
+
     }
 }

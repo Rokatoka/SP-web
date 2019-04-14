@@ -18,12 +18,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'patronymic',
         'email',
         'role_id',
         'password',
         'photo',
         'phone',
+        'validator'
     ];
 
     /**
@@ -38,10 +41,12 @@ class User extends Authenticatable
     public static function rules($id = 0)
     {
         return [
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'nullable|email',
-            'photo' => 'image64:jpeg,jpg,png',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'patronymic' => 'required|string|max:255',
+            'phone' => 'required|min:11',
+            'email' => 'required|email',
+            'iin'=> 'required|min:12'
         ];
     }
 
@@ -157,5 +162,15 @@ class User extends Authenticatable
     public function scopeMultiAccount($query, $user_id){
 
     }
+
+
+    public function patient(){
+        return $this->hasOne('App\Patient', 'user_id');
+    }
+
+    public function doctor(){
+        return $this->hasOne('App\Doctor', 'user_id');
+    }
+
 
 }

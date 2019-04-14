@@ -31,13 +31,16 @@
                 <hr>
 
                 <ul>
-                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> Показатели</router-link></li>
-                    <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> Управление</router-link></li>
+                    <li class="mb-2" v-if="$root.user.data.role.id == 1"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-bar-chart fa-lg"></span> Dashboard</router-link></li>
+                    <li class="mb-2" v-if="$root.user.data.role.id == 1"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-universal-access fa-lg"></span> Control</router-link></li>
+                    <li class="mb-2" v-if="$root.user.data.role.id == 3"><router-link to="/histories" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-heartbeat fa-lg"></span> Histories</router-link></li>
+                    <li class="mb-2" v-if="$root.user.data.role.id == 3"><router-link to="/hospitals" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-hospital-o fa-lg"></span> Hospitals</router-link></li>
+                    <li class="mb-2" v-if="$root.user.data.role.id == 2"><router-link to="/appointments" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-address-card fa-lg"></span> Appointments</router-link></li>
                 </ul>
                 <hr>
                 <ul>
-                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;" class="text-muted" ><span class="fa fa-fw fa-cog  mr-2"></span> Мои настройки</a></li>
-                    <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out  mr-2"></span> Выход</button></div></li>
+                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;" class="text-muted" ><span class="fa fa-fw fa-cog fa-lg  mr-2"></span> My Settings</a></li>
+                    <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out fa-lg mr-2"></span> Log out</button></div></li>
                 </ul>
 
             </div>

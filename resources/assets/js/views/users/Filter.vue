@@ -2,12 +2,22 @@
     <!-- Поиск -->
     <div class="col-2 offset-2 fixed-top h-100 pt-4">
         <div class="form-group">
-            <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" placeholder="Имя, телефон или эл.почта">
+            <select class="form-control" v-model="filterData.field">
+                <option value="name">Name</option>
+                <option value="phone">Phone</option>
+                <option value="email">Email</option>
+            </select>
+        </div>
+        <div class="form-group" v-if="filterData.field != 'phone'">
+            <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" placeholder="Name, phone, email">
+        </div>
+        <div class="form-group" v-else>
+            <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" v-mask="'# (###) ### ## ##'">
         </div>
 
         <div class="form_group">
-            <button @click="clearListLoad()" :disabled="load" class="btn btn-primary btn-block" >Применить</button>
-            <button @click="resetFilter()" :disabled="load" class="btn btn-secondary btn-block btn-sm">Сбросить фильтр</button>
+            <button @click="clearListLoad()" :disabled="load" class="btn btn-primary btn-block" >Apply</button>
+            <button @click="resetFilter()" :disabled="load" class="btn btn-secondary btn-block btn-sm">Cancel Filter</button>
         </div>
     </div>
 </template>
@@ -23,6 +33,7 @@
 
                 filterData: {
                     search_text: '',
+                    field:''
                 },
                 temp: {
                 },
@@ -45,26 +56,12 @@
             },
             clearListLoad(){
 
-
                 this.$nextTick(function () {
                     this.$emit('filtered');
                 });
 
             },
-            setFiltered(query){
-
-                for (let filterKey in this.filterData) {
-                    for(let queryKey in query){
-                        if(filterKey == queryKey) {
-                            if(this.filterData[filterKey].constructor === Array) {
-                                this.filterData[filterKey].push(query[queryKey]);
-                            } else {
-                                this.filterData[filterKey] = query[queryKey];
-                            }
-
-                        }
-                    }
-                }
+            setFiltered(){
 
                 this.$nextTick(function () {
                     this.setSelect();

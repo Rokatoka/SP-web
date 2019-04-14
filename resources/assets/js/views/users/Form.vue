@@ -4,41 +4,59 @@
         <b-modal v-if="data" ref="modal" size="lg" :title="title">
 
             <div  v-bind:class="{ 'has-error': errors && errors.role_id }" class="form-group row">
-                <label class="col-3 col-form-label">Роль</label>
+                <label class="col-3 col-form-label">Role</label>
                 <div class="col-9">
-                    <v-select :on-change="selectRole" label="description" value="id" :value.sync="form.role" :options="roles" placeholder="Выберите роль"></v-select>
-                    <form-error v-if="errors && errors.role_id" :errors="errors">
-                        {{ errors.role_id[0] }}
-                    </form-error>
-                </div>
-            </div>
-
-            <div v-bind:class="{ 'has-error': errors && errors.photo }" class="form-group row">
-                <label class="col-3 col-form-label">Фото</label>
-                <div class="col-9">
-                    <user-photo :user="form" :accept="'image/jpeg,image/png,image/gif'"></user-photo>
-                    <form-error v-if="errors && errors.photo" :errors="errors">
-                        {{ errors.photo[0] }}
+                    <v-select :on-change="selectRole" label="name" value="id" :value.sync="form.role" :options="roles" placeholder="Choose Role"></v-select>
+                    <form-error v-if="error_role" :errors="errors">
+                        {{ error_role[0] }}
                     </form-error>
                 </div>
             </div>
 
             <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
-                <label class="col-3 col-form-label">ФИО</label>
+                <label class="col-3 col-form-label">Name</label>
                 <div class="col-9">
-                    <input v-model="form.name" class="form-control" type="text" placeholder="ФИО">
-                    <form-error v-if="errors && errors.name" :errors="errors">
-                        {{ errors.name[0] }}
+                    <input v-model="form.first_name" class="form-control" type="text" placeholder="Name">
+                    <form-error v-if="errors && errors.errors && errors.errors.first_name" :errors="errors">
+                        {{ errors.errors.first_name[0] }}
+                    </form-error>
+                </div>
+            </div>
+            <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
+                <label class="col-3 col-form-label">Surname</label>
+                <div class="col-9">
+                    <input v-model="form.last_name" class="form-control" type="text" placeholder="Surname">
+                    <form-error v-if="errors && errors.errors && errors.errors.last_name" :errors="errors">
+                        {{ errors.errors.last_name[0] }}
+                    </form-error>
+                </div>
+            </div>
+            <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
+                <label class="col-3 col-form-label">Patronymic</label>
+                <div class="col-9">
+                    <input v-model="form.patronymic" class="form-control" type="text" placeholder="Patronymic">
+                    <form-error v-if="errors && errors.errors && errors.errors.patronymic" :errors="errors">
+                        {{ errors.errors.patronymic[0] }}
                     </form-error>
                 </div>
             </div>
 
             <div v-bind:class="{ 'has-error': errors && errors.phone }" class="form-group row">
-                <label class="col-3 col-form-label">Телефон</label>
+                <label class="col-3 col-form-label">Phone</label>
                 <div class="col-9">
-                    <masked-input v-model="form.phone" class="form-control" mask="1 (111) 111 11 11" placeholder="8 (707) 465 48 12"/>
-                    <form-error v-if="errors && errors.phone" :errors="errors">
-                        {{ errors.phone[0] }}
+                    <input v-model="form.phone" class="form-control" v-mask="'# (###) ### ## ##'" placeholder="8 (707) 465 48 12"/>
+                    <form-error v-if="errors && errors.errors && errors.errors.phone" :errors="errors">
+                        {{ errors.errors.phone[0] }}
+                    </form-error>
+                </div>
+            </div>
+
+            <div v-bind:class="{ 'has-error': errors && errors.iin }" class="form-group row">
+                <label class="col-3 col-form-label">IIN</label>
+                <div class="col-9">
+                    <input v-model="form.iin" class="form-control" v-mask="'############'" placeholder="IIN"/>
+                    <form-error v-if="errors && errors.errors && errors.errors.iin" :errors="errors">
+                        {{ errors.errors.iin[0] }}
                     </form-error>
                 </div>
             </div>
@@ -47,28 +65,25 @@
                 <label class="col-3 col-form-label">Email</label>
                 <div class="col-9">
                     <input v-model="form.email" class="form-control" type="text" placeholder="email">
-                    <form-error v-if="errors && errors.email" :errors="errors">
-                        {{ errors.email[0] }}
+                    <form-error v-if="errors && errors.errors && errors.errors.email" :errors="errors">
+                        {{ errors.errors.email[0] }}
                     </form-error>
                 </div>
             </div>
 
             <div v-bind:class="{ 'has-error': errors && errors.password }" class="form-group row">
-                <label class="col-3 col-form-label">Пароль</label>
+                <label class="col-3 col-form-label">Password</label>
                 <div class="col-9">
-                    <input v-model="form.password" class="form-control" type="text" placeholder="Пароль">
-                    <form-error v-if="errors && errors.password" :errors="errors">
-                        {{ errors.password[0] }}
-                    </form-error>
+                    <input v-model="form.password" class="form-control" type="text" placeholder="Password">
                 </div>
             </div>
 
             <div v-bind:class="{ 'has-error': errors && errors.password_confirmation }" class="form-group row">
-                <label class="col-3 col-form-label">Пароль еще раз</label>
+                <label class="col-3 col-form-label">Password(repeat)</label>
                 <div class="col-9">
-                    <input v-model="form.password_confirmation" class="form-control" type="text" placeholder="Пароль">
-                    <form-error v-if="errors && errors.password_confirmation" :errors="errors">
-                        {{ errors.password_confirmation[0] }}
+                    <input v-model="form.password_confirmation" class="form-control" type="text" placeholder="Password">
+                    <form-error v-if="error_password" :errors="errors">
+                        {{ error_password[0] }}
                     </form-error>
                 </div>
             </div>
@@ -79,7 +94,7 @@
                         class="btn"
                         @click="randpass"
                         :disabled="formSending? true : false"
-                >Генерировать пароль</button>
+                >Generate Password</button>
                 </div>
             </div>
 
@@ -91,7 +106,7 @@
                         @click="sendForm"
                         :disabled="(formSending? true : false)"
                 >
-                    <i v-show="formSending" class="fa fa-spinner fa-spin"></i> {{ form.id ? 'Сохранить' : 'Добавить' }}
+                    <i v-show="formSending" class="fa fa-spinner fa-spin"></i> {{ form.id ? 'Save' : 'Add' }}
                 </button>
             </div>
 
@@ -114,6 +129,8 @@
         data() {
             return {
                 errors: [],
+                error_password:[],
+                error_role:[],
                 formSending: false,
                 form: '',
                 title: ''
@@ -124,7 +141,9 @@
                 var arr=[];
                 if(this.$common.data) {
                     this.$common.data.roles.forEach(function(role) {
-                        arr.push(role);
+                        if(role.id != 3){
+                            arr.push(role);
+                        }
                     });
                 }
                 return arr;
@@ -134,7 +153,7 @@
             this.form = this._form ? this._form : this.newUser();
         },
         mounted() {
-            this.title = this.form.id ? 'Редактировать пользователя' : 'Добавить пользователя';
+            this.title = this.form.id ? 'Customize user' : 'Add user';
         },
         components: {
             FormError : require('./../../components/FormError.vue'),
@@ -145,9 +164,25 @@
                 this.formSending = true;
 
                 let _this = this;
+                _this.error_role = [];
+                _this.error_password = [];
 
+                if(_this.form.role_id === ""){
+                    _this.error_role.push("Choose Role");
+                    _this.formSending = false;
+                    return;
+                }
 
-                post(_this, '/api/user-save', this.form, function () {
+                if((_this.form.password !== _this.form.password_confirmation) || (_this.form.password === "") || (_this.form.password_confirmation === "")){
+                    _this.error_password.push("Password data incorrect");
+                    _this.formSending = false;
+                    return;
+                }
+                console.log(_this.form);
+
+                post(_this, '/api/user-save', {
+                    user: _this.form
+                }, function () {
 
                     _this.formSending = false;
                     _this.errors = '';
@@ -160,6 +195,7 @@
 
                     _this.formSending = false;
                     _this.errors = error.response.data;
+                    console.log(_this.errors.errors.email[0]);
 
                 });
 
@@ -173,23 +209,23 @@
             },
             selectRole(val) {
                 if (val)
-                    this.form.role_id = val.id;
-                this.form.role = val;
+                    this.form.role_id = val;
             },
 
             newUser() {
 
                 return {
-
-                    id: '',
-                    photo: '',
-                    name: '',
+                    id:'',
+                    first_name: '',
+                    last_name: '',
+                    patronymic: '',
                     phone: '',
+                    iin:'',
                     email: '',
                     password: '',
                     password_confirmation: '',
-                    role_id: '',
-                    role: ''
+                    role: '',
+                    role_id:''
 
                 }
 

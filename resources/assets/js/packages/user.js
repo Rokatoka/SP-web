@@ -29,20 +29,34 @@ export default function (Vue) {
 
         getName() {
 
-            return this.data ? this.data.name : '';
+            return this.data ? this.data.first_name + " " + this.data.last_name + " " + this.data.patronymic : '';
 
         },
 
 
         getRoleDescription() {
 
-            return this.data ? this.data.role.description : '';
+            return this.data ? this.data.role.name : '';
 
         },
 
         isAdmin() {
 
             return this.data && this.data.role.name === 'administrator'
+
+        },
+        isDoctor() {
+
+            return this.data && this.data.role.name === 'doctor'
+
+        },
+        isPatient() {
+
+            return this.data && this.data.role.name === 'patient'
+
+        },
+
+        getPatientData(){
 
         },
 

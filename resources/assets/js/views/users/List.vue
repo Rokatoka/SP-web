@@ -3,24 +3,24 @@
         <user-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></user-filter>
         <!-- Результаты -->
         <div class="col-8 offset-4">
-            Найдено <b>{{ total }}</b> пользователя
-            <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newUser.showModal()">добавить</button>
+            Found <b>{{ total }}</b> users
+            <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newUser.showModal()">Add</button>
 
             <table class="table mt-4">
                 <thead class="thead-default">
                 <tr>
-                    <th>Имя</th>
-                    <th>Роль</th>
+                    <th>Name</th>
+                    <th>Role</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="user in users">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.role.description }}</td>
+                    <td>{{ user.first_name + " " + user.last_name }}</td>
+                    <td>{{ user.role.name }}</td>
                     <td>
                         <div class="pull-right">
-                            <b-tooltip title="Открыть профиль">
+                            <b-tooltip title="Open">
                                 <router-link :to="{name:'user', params:{id: user.id}}" class="btn btn-outline-primary btn-sm"><span class="fa fa-user"></span></router-link>
                             </b-tooltip>
                         </div>
@@ -51,12 +51,13 @@
                 total: 0,
                 resource_url: '/api/users',
                 next_url: '',
-                default_url: '/api/users'
+                default_url: '/api/users',
+                filterData:''
             }
         },
         components: {
             'user-form': require('./Form.vue'),
-            'user-filter': require('./Filter.vue')
+            'user-filter': require('./Filter.vue'),
         },
         methods: {
             getList() {
@@ -81,6 +82,7 @@
                     _this.next_url = json.next_page_url;
 
                     _this.users = _this.users.concat(json.data);
+                    console.log(response.data);
 
                     _this.total = json.total;
 
@@ -100,6 +102,7 @@
                 this.users = [];
                 this.total = 0;
                 this.filterData = this.$refs.filter.filterData;
+                console.log(this.filterData.search_text);
 
                 this.$nextTick(function () {
                     this.$router.push({ path: '/control/users', query: this.filterData });

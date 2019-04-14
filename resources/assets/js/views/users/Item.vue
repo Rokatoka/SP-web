@@ -2,9 +2,9 @@
 
     <div>
 
-        <div class="col-2 offset-2 fixed-top h-100 pt-4">
-            <button type="button" class="btn btn-secondary btn-block text-left btn-sm" @click="edit()" ><span class="fa fa-fw fa-pencil"></span> Редактировать</button>
-            <button type="button" class="btn btn-secondary btn-block text-left btn-sm" @click="$refs.modalDelete.show()"><span class="fa fa-fw fa-trash"></span> Удалить</button>
+        <div class="col-2 offset-2 fixed-top h-100 pt-4" v-if="$root.user.data.role_id === 1">
+            <button type="button" class="btn btn-secondary btn-block text-left btn-sm" @click="edit()" ><span class="fa fa-fw fa-pencil"></span> Customize</button>
+            <button type="button" class="btn btn-secondary btn-block text-left btn-sm" @click="$refs.modalDelete.show()"><span class="fa fa-fw fa-trash"></span> Delete</button>
 
         </div>
 
@@ -14,11 +14,11 @@
                 <span class="h4">{{ user.name }}</span>
             </div>
 
-            <div class="h5">Контактная информация</div>
+            <div class="h5">Contact Information</div>
             <table class="table table-sm table-responsive">
                 <tbody>
                 <tr>
-                    <td><span class="h6">Телефон</span></td>
+                    <td><span class="h6">Phone</span></td>
                     <td>{{ user.phone }}</td>
                 </tr>
                 <tr>
@@ -26,7 +26,7 @@
                     <td>{{ user.email }}</td>
                 </tr>
                 <tr>
-                    <td><span class="h6">Дата создания</span></td>
+                    <td><span class="h6">Created At</span></td>
                     <td>{{ user.created_at }}</td>
                 </tr>
                 </tbody>
